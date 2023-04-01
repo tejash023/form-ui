@@ -13,7 +13,6 @@ const FieldInput = ({ fieldItem }) => {
   const { id, name, type, required, index } = fieldItem;
 
   const Obj = fieldItem?.Obj;
-  console.log(Obj);
 
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);

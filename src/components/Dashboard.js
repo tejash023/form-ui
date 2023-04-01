@@ -35,7 +35,7 @@ const Dashboard = () => {
       </p>
 
       <div className="flex items-center justify-between p-6">
-        <p className="text-sm font-bold">FIELD NAMES AND TYPE</p>
+        <p className="text-sm font-bold text-blue-600">FIELD NAMES AND TYPE</p>
         <div
           className="text-blue-500 hover:text-blue-700 cursor-pointer"
           onClick={() => handleFieldData()}
@@ -44,22 +44,30 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="px-1 md:px-4">
-        {fieldItems.map((fieldItem) => (
-          <FieldInput fieldItem={fieldItem} key={fieldItem.id} />
-        ))}
+      {fieldItems.length <= 0 ? (
+        <p className="flex items-center justify-center mb-2 text-sm font-semibold text-blue-800 uppercase">
+          {" "}
+          Click <MdOutlineAddCircle size="1.25rem" className="mx-1" /> to add
+          Field Names
+        </p>
+      ) : (
+        <div className="px-1 md:px-4">
+          {fieldItems.map((fieldItem) => (
+            <FieldInput fieldItem={fieldItem} key={fieldItem.id} />
+          ))}
 
-        {fieldItems.length > 0 && (
-          <div className="w-full flex justify-center py-4">
-            <button
-              className="content-center bg-blue-500 px-6 py-2 rounded text-white text-center font-bold hover:bg-blue-700"
-              onClick={() => console.log(fieldItems)}
-            >
-              Save
-            </button>
-          </div>
-        )}
-      </div>
+          {fieldItems.length > 0 && (
+            <div className="w-full flex justify-center py-4">
+              <button
+                className="content-center bg-blue-500 px-6 py-2 rounded text-white text-center font-bold hover:bg-blue-700"
+                onClick={() => console.log(fieldItems)}
+              >
+                Save
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
