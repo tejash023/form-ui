@@ -29,8 +29,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-auto w-3/5 bg-white shadow-xl rounded">
-      <p className="text-center text-blue-600 font-bold text-lg py-2">
+    <div className="h-auto w-[95%] md:w-3/5 bg-white shadow-xl rounded">
+      <p className="text-center text-blue-600 font-bold text-xl py-4">
         DASHBOARD
       </p>
 
@@ -44,13 +44,13 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="px-4">
+      <div className="px-1 md:px-4">
         {fieldItems.map((fieldItem) => (
           <FieldInput fieldItem={fieldItem} key={fieldItem.id} />
         ))}
 
         {fieldItems.length > 0 && (
-          <div className="w-full flex justify-center py-2">
+          <div className="w-full flex justify-center py-4">
             <button
               className="content-center bg-blue-500 px-6 py-2 rounded text-white text-center font-bold hover:bg-blue-700"
               onClick={() => console.log(fieldItems)}
@@ -60,7 +60,6 @@ const Dashboard = () => {
           </div>
         )}
       </div>
-      <div></div>
     </div>
   );
 };

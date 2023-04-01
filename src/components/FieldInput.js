@@ -12,6 +12,9 @@ import ToggleButton from "./ToggleButton";
 const FieldInput = ({ fieldItem }) => {
   const { id, name, type, required, index } = fieldItem;
 
+  const Obj = fieldItem?.Obj;
+  console.log(Obj);
+
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
 
@@ -31,10 +34,11 @@ const FieldInput = ({ fieldItem }) => {
   };
 
   const handleNestedFieldData = (id) => {
+    const newIndex = !Obj ? 1 : Obj.length + 1;
     dispatch(
       handleFieldInput({
         id,
-        index,
+        index: newIndex,
         name: "addName",
         type: "String",
         required: false,
@@ -44,7 +48,7 @@ const FieldInput = ({ fieldItem }) => {
 
   return (
     <div
-      className="flex items-center justify-between px-4 py-2 border-solid border-2 rounded border-gray-300 my-2 mx-2"
+      className="flex items-center justify-between px-1 md:px-4 py-2 border-solid border-2 rounded border-gray-300 my-2 mx-2"
       onMouseEnter={() => setEditMode(true)}
       onMouseLeave={() => setEditMode(false)}
     >
@@ -52,7 +56,7 @@ const FieldInput = ({ fieldItem }) => {
         <p className="text-gray-400">{index}.</p>
 
         <input
-          className="p-1 w-2/6 outline:none focus:outline-none focus:border-sky-500 focus:rounded focus:ring-1 focus:ring-sky-500 mr-3 cursor-pointer transition-all duration-500"
+          className="p-1 w-1/4 md:w-2/6 outline:none focus:outline-none focus:border-sky-500 focus:rounded focus:ring-1 focus:ring-sky-500 mr-3 cursor-pointer transition-all duration-500"
           value={name}
           onChange={(e) => handleNameChange(id, e.target.value)}
         />
