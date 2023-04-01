@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { MdOutlineAddCircle, MdDelete } from "react-icons/md";
+
 import {
   handleNameUpdate,
   handleDelete,
   handleType,
   handleFieldInput,
 } from "../utils/appSlice";
+
 import ToggleButton from "./ToggleButton";
 
 const FieldInput = ({ fieldItem }) => {
@@ -46,52 +48,62 @@ const FieldInput = ({ fieldItem }) => {
   };
 
   return (
-    <div
-      className="flex items-center justify-between px-1 md:px-4 py-2 border-solid border-2 rounded border-gray-300 my-2 mx-2"
-      onMouseEnter={() => setEditMode(true)}
-      onMouseLeave={() => setEditMode(false)}
-    >
-      <div className="flex items-center gap-2">
-        <p className="text-gray-400">{index}.</p>
-
-        <input
-          className="p-1 w-1/4 md:w-2/6 outline:none focus:outline-none focus:border-sky-500 focus:rounded focus:ring-1 focus:ring-sky-500 mr-3 cursor-pointer transition-all duration-500"
-          value={name}
-          onChange={(e) => handleNameChange(id, e.target.value)}
-        />
-
-        <select
-          className="p-1 bg-gray-300 rounded w-28 cursor-pointer outline:none focus:outline-none"
-          value={type}
-          onChange={(e) => handleTypeChange(id, e.target.value)}
-        >
-          <option value="string">String</option>
-          <option value="number">Number</option>
-          <option value="boolean">Boolean</option>
-          <option value="object">Object</option>
-        </select>
-      </div>
-      {type === "object" && (
-        <div
-          className="text-blue-500 hover:text-blue-700 cursor-pointer"
-          onClick={() => handleNestedFieldData(id)}
-        >
-          <MdOutlineAddCircle size="1.5rem" />
-        </div>
-      )}
-
-      {editMode && (
+    <div>
+      <div
+        className="flex items-center justify-between px-1 md:px-4 py-2 border-solid border-2 rounded border-gray-300 my-2 mx-2"
+        onMouseEnter={() => setEditMode(true)}
+        onMouseLeave={() => setEditMode(false)}
+      >
         <div className="flex items-center gap-2">
-          <p className="text-xs font-semibold">Required</p>
+          <p className="text-gray-400">{index}.</p>
 
-          <ToggleButton id={id} required={required} />
-          {!required && (
-            <MdDelete
-              className="hover:text-red-600 cursor-pointer"
-              size="1.25rem"
-              onClick={() => handleFieldDelete(id)}
-            />
-          )}
+          <input
+            className="p-1 w-1/4 md:w-2/6 outline:none focus:outline-none focus:border-sky-500 focus:rounded focus:ring-1 focus:ring-sky-500 mr-3 cursor-pointer transition-all duration-500"
+            value={name}
+            onChange={(e) => handleNameChange(id, e.target.value)}
+          />
+
+          <select
+            className="p-1 bg-gray-300 rounded w-28 cursor-pointer outline:none focus:outline-none"
+            value={type}
+            onChange={(e) => handleTypeChange(id, e.target.value)}
+          >
+            <option value="string">String</option>
+            <option value="number">Number</option>
+            <option value="boolean">Boolean</option>
+            <option value="object">Object</option>
+          </select>
+        </div>
+        {type === "object" && (
+          <div
+            className="text-blue-500 hover:text-blue-700 cursor-pointer"
+            onClick={() => handleNestedFieldData(id)}
+          >
+            <MdOutlineAddCircle size="1.5rem" />
+          </div>
+        )}
+
+        {editMode && (
+          <div className="flex items-center gap-2">
+            <p className="text-xs font-semibold">Required</p>
+
+            <ToggleButton id={id} required={required} />
+            {!required && (
+              <MdDelete
+                className="hover:text-red-600 cursor-pointer"
+                size="1.25rem"
+                onClick={() => handleFieldDelete(id)}
+              />
+            )}
+          </div>
+        )}
+      </div>
+
+      {Obj && Obj.length > 0 && (
+        <div className="ml-5">
+          {Obj.map((item) => (
+            <FieldInput fieldItem={item} key={"nested" + item.id} />
+          ))}
         </div>
       )}
     </div>

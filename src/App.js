@@ -14,3 +14,17 @@ function App() {
 }
 
 export default App;
+
+/**
+ *
+ * APP
+ * Components
+ *  Dashboard Component
+ *    FieldInput Component
+ *      ToggleButton Component
+ *
+ * UTILS
+ * Redux Store
+ * appSlice
+ *
+ */
