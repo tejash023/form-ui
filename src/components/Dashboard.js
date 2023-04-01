@@ -1,52 +1,29 @@
-import React, { useState } from "react";
-import { MdOutlineAddCircle, MdDelete } from "react-icons/md";
+import React from "react";
+import { MdOutlineAddCircle } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { handleFieldInput } from "../utils/appSlice";
+
+import FieldInput from "./FieldInput";
 
 const Dashboard = () => {
-  const [fieldNames, setFieldNames] = useState([]);
-  const [editMode, setEditMode] = useState(true);
+  //GETTING FIELDITEMS FROM STORE - STORE SUBSCRIPTION
+  const filedItems = useSelector((store) => store.app.fieldItems);
 
-  const handleFieldInput = () => {
+  const dispatch = useDispatch();
+
+  //HANDLING DEFAULT FIELD DATA
+  const handleFieldData = () => {
     const id = uuidv4();
-    const index = fieldNames.length + 1;
-    setFieldNames((prev) => [
-      ...prev,
-      {
+    const index = filedItems.length + 1;
+    dispatch(
+      handleFieldInput({
         id,
         index,
         name: "addName",
         type: "String",
         required: false,
-      },
-    ]);
-  };
-
-  const handleFieldDelete = (id) => {
-    setFieldNames(fieldNames.filter((fieldItems) => fieldItems.id !== id));
-  };
-
-  const handleNameChange = (id, newName) => {
-    setFieldNames((prevState) =>
-      prevState.map((field) =>
-        field.id === id ? { ...field, name: newName } : field
-      )
-    );
-  };
-
-  const handleTypeChange = (id, newType) => {
-    setFieldNames((prevState) =>
-      prevState.map((field) =>
-        field.id === id ? { ...field, type: newType } : field
-      )
-    );
-  };
-
-  const handleRequired = (id) => {
-    console.log("checked");
-    setFieldNames((prevState) =>
-      prevState.map((field) =>
-        field.id === id ? { ...field, required: !field.required } : field
-      )
+      })
     );
   };
 
@@ -55,74 +32,34 @@ const Dashboard = () => {
       <p className="text-center text-blue-600 font-bold text-lg py-2">
         DASHBOARD
       </p>
+
       <div className="flex items-center justify-between p-6">
         <p className="text-sm font-bold">FIELD NAMES AND TYPE</p>
         <div
-          className="hover:text-purple-500 cursor-pointer"
-          onClick={() => handleFieldInput()}
+          className="text-blue-500 hover:text-blue-700 cursor-pointer"
+          onClick={() => handleFieldData()}
         >
           <MdOutlineAddCircle size="1.5rem" />
         </div>
       </div>
 
       <div className="px-4">
-        {fieldNames.map((fieldItem) => (
-          <div
-            key={fieldItem.id}
-            className="flex items-center justify-between px-4 py-2 border-solid border-2 rounded border-gray-300 my-2 mx-2"
-          >
-            <div className="flex items-center gap-2">
-              <p className="text-gray-400">{fieldItem.index}.</p>
-
-              <input
-                className="p-1 w-2/6 outline:none focus:outline-none focus:border-sky-500 focus:rounded focus:ring-1 focus:ring-sky-500 mr-3"
-                value={fieldItem.name}
-                onChange={(e) => handleNameChange(fieldItem.id, e.target.value)}
-              />
-
-              <select
-                className="p-1 bg-gray-300 rounded w-28"
-                value={fieldItem.type}
-                onChange={(e) => handleTypeChange(fieldItem.id, e.target.value)}
-              >
-                <option value="string">String</option>
-                <option value="number">Number</option>
-                <option value="boolean">Boolean</option>
-                <option value="Object">Object</option>
-              </select>
-            </div>
-
-            {editMode && (
-              <div className="flex items-center gap-2">
-                <p className="text-xs">Required</p>
-                <input
-                  type="checkbox"
-                  onChange={() => handleRequired(fieldItem.id)}
-                />
-
-                {!fieldItem.required && (
-                  <MdDelete
-                    className="hover:text-red-600 cursor-pointer"
-                    size="1.25rem"
-                    onClick={() => handleFieldDelete(fieldItem.id)}
-                  />
-                )}
-              </div>
-            )}
-          </div>
+        {filedItems.map((fieldItem) => (
+          <FieldInput fieldItem={fieldItem} key={fieldItem.id} />
         ))}
 
-        {fieldNames.length > 0 && (
+        {filedItems.length > 0 && (
           <div className="w-full flex justify-center py-2">
             <button
               className="content-center bg-blue-500 px-6 py-2 rounded text-white text-center font-bold hover:bg-blue-700"
-              onClick={() => console.log(fieldNames)}
+              onClick={() => console.log(filedItems)}
             >
               Save
             </button>
           </div>
         )}
       </div>
+      <div></div>
     </div>
   );
 };

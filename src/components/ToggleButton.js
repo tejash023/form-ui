@@ -1,18 +1,36 @@
-import React from "react";
+import classNames from "classnames";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { handleRequired } from "../utils/appSlice";
 
-const ToggleButton = () => {
+const ToggleButton = ({ id }) => {
+  const dispatch = useDispatch();
+  const [isToggled, setIsToggled] = useState(false);
+
+  //UPDATING REQUIRED - TRUE / FALSE
+  const handleRequire = () => {
+    setIsToggled(!isToggled);
+    dispatch(handleRequired({ id, isToggled }));
+  };
+
   return (
-    <div className="bg-fuchsia-600">
-      <label
-        for="toggleFour"
-        className="flex cursor-pointer select-none items-center"
-      >
-        <div className="relative">
-          <input type="checkbox" id="toggleFour" className="sr-only" />
-          <div className="box bg-dark block h-8 w-14 rounded-full"></div>
-          <div className="dot absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white transition"></div>
-        </div>
-      </label>
+    <div
+      onClick={() => handleRequire()}
+      className={classNames(
+        "flex w-7 h-3 bg-gray-300  rounded-full transition-all duration-300",
+        {
+          "bg-green-200": isToggled,
+        }
+      )}
+    >
+      <span
+        className={classNames(
+          "h-3 w-3 bg-blue-500 rounded-full full transition-all duration-300",
+          {
+            "ml-4": isToggled,
+          }
+        )}
+      />
     </div>
   );
 };
