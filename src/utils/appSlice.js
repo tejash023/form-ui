@@ -8,7 +8,18 @@ const appSlice = createSlice({
 
   reducers: {
     handleFieldInput: (state, action) => {
-      state.fieldItems.push(action.payload);
+      let isPresent = state.fieldItems.some(
+        (item) => item.id === action.payload.id
+      );
+      if (isPresent) {
+        state.fieldItems.forEach((field) => {
+          if (field.id === action.payload.id) {
+            field.Obj.push(action.payload);
+          }
+        });
+      } else {
+        state.fieldItems.push(action.payload);
+      }
     },
     handleNameUpdate: (state, action) => {
       state.fieldItems.forEach((field) => {

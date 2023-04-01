@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { MdDelete } from "react-icons/md";
-import { handleNameUpdate, handleDelete, handleType } from "../utils/appSlice";
+import { MdOutlineAddCircle, MdDelete } from "react-icons/md";
+import {
+  handleNameUpdate,
+  handleDelete,
+  handleType,
+  handleFieldInput,
+} from "../utils/appSlice";
 import ToggleButton from "./ToggleButton";
 
 const FieldInput = ({ fieldItem }) => {
@@ -23,6 +28,18 @@ const FieldInput = ({ fieldItem }) => {
   //UPDATING FIELD TYPE - STRING, NUMBER, BOOLEAN and OBJECT
   const handleTypeChange = (id, type) => {
     dispatch(handleType({ id, type }));
+  };
+
+  const handleNestedFieldData = (id) => {
+    dispatch(
+      handleFieldInput({
+        id,
+        index,
+        name: "addName",
+        type: "String",
+        required: false,
+      })
+    );
   };
 
   return (
@@ -51,12 +68,20 @@ const FieldInput = ({ fieldItem }) => {
           <option value="object">Object</option>
         </select>
       </div>
+      {type === "object" && (
+        <div
+          className="text-blue-500 hover:text-blue-700 cursor-pointer"
+          onClick={() => handleNestedFieldData(id)}
+        >
+          <MdOutlineAddCircle size="1.5rem" />
+        </div>
+      )}
 
       {editMode && (
         <div className="flex items-center gap-2">
           <p className="text-xs font-semibold">Required</p>
 
-          <ToggleButton id={id} />
+          <ToggleButton id={id} required={required} />
           {!required && (
             <MdDelete
               className="hover:text-red-600 cursor-pointer"

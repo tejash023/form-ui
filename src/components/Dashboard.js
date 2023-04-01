@@ -8,14 +8,14 @@ import FieldInput from "./FieldInput";
 
 const Dashboard = () => {
   //GETTING FIELDITEMS FROM STORE - STORE SUBSCRIPTION
-  const filedItems = useSelector((store) => store.app.fieldItems);
+  const fieldItems = useSelector((store) => store.app.fieldItems);
 
   const dispatch = useDispatch();
 
   //HANDLING DEFAULT FIELD DATA
   const handleFieldData = () => {
     const id = uuidv4();
-    const index = filedItems.length + 1;
+    const index = fieldItems.length + 1;
     dispatch(
       handleFieldInput({
         id,
@@ -23,6 +23,7 @@ const Dashboard = () => {
         name: "addName",
         type: "String",
         required: false,
+        Obj: [],
       })
     );
   };
@@ -44,15 +45,15 @@ const Dashboard = () => {
       </div>
 
       <div className="px-4">
-        {filedItems.map((fieldItem) => (
+        {fieldItems.map((fieldItem) => (
           <FieldInput fieldItem={fieldItem} key={fieldItem.id} />
         ))}
 
-        {filedItems.length > 0 && (
+        {fieldItems.length > 0 && (
           <div className="w-full flex justify-center py-2">
             <button
               className="content-center bg-blue-500 px-6 py-2 rounded text-white text-center font-bold hover:bg-blue-700"
-              onClick={() => console.log(filedItems)}
+              onClick={() => console.log(fieldItems)}
             >
               Save
             </button>

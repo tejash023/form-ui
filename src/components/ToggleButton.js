@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { handleRequired } from "../utils/appSlice";
 
-const ToggleButton = ({ id }) => {
+const ToggleButton = ({ id, required }) => {
   const dispatch = useDispatch();
-  const [isToggled, setIsToggled] = useState(false);
+
+  const [isToggled, setIsToggled] = useState(required);
 
   //UPDATING REQUIRED - TRUE / FALSE
   const handleRequire = () => {
-    setIsToggled(!isToggled);
+    setIsToggled(!required);
     dispatch(handleRequired({ id, isToggled }));
   };
 
@@ -17,7 +18,7 @@ const ToggleButton = ({ id }) => {
     <div
       onClick={() => handleRequire()}
       className={classNames(
-        "flex w-7 h-3 bg-gray-300  rounded-full transition-all duration-300",
+        "flex w-7 h-3 bg-gray-300  rounded-full transition-all duration-300 cursor-pointer",
         {
           "bg-green-200": isToggled,
         }
